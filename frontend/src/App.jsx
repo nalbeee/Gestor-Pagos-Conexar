@@ -6,6 +6,8 @@ import Empleados from './pages/Empleados';
 import Resumenes from './pages/Resumenes';
 import EmpleadoForm from './pages/EmpleadoForm';
 import EmpleadoDetalle from './pages/EmpleadoDetalle';
+import ObraForm from './pages/ObraForm';
+import ObraDetalle from './pages/ObraDetalle';
 
 function App() {
   return (
@@ -20,6 +22,10 @@ function App() {
           <Route path="/empleados/editar/:id" element={<EmpleadoForm />} />
           <Route path="/empleados/:id" element={<EmpleadoDetalle />} />
           <Route path="/resumenes" element={<Resumenes />} />
+          <Route path="/obras" element={<Obras />} />
+          <Route path="/obras/nueva" element={<ObraForm />} />
+          <Route path="/obras/editar/:id" element={<ObraForm />} />
+          <Route path="/obras/:id" element={<ObraDetalle />} />
         </Route>
       </Routes>
     </BrowserRouter>
