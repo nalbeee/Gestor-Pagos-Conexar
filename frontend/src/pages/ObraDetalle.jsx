@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import ConfirmModal from '../components/ui/ConfirmModal';
+import { calcularMontoRegistro } from '../utils/calculos';
 
 export default function ObraDetalle() {
   const { id } = useParams();
@@ -19,16 +20,24 @@ export default function ObraDetalle() {
   }, [id]);
 
   const fetchObraYGastos = async () => {
+    // 1. Traer datos de la obra
     const { data: obraData } = await supabase.from('obras').select('*').eq('id', id).single();
     if (obraData) setObra(obraData);
 
+    // 2. Traer todos los registros de trabajo de esta obra
     const { data: registrosData } = await supabase
       .from('registro_trabajo')
       .select('*')
       .eq('obra_id', id);
 
+    // 3. Procesar matemáticamente los registros y sumar el total
     if (registrosData && registrosData.length > 0) {
-      setGastoTotal(0); 
+      const gastoCalculado = registrosData.reduce((acumulador, registro) => {
+        const calculo = calcularMontoRegistro(registro);
+        return acumulador + calculo.total;
+      }, 0);
+      
+      setGastoTotal(gastoCalculado); 
     } else {
       setGastoTotal(0);
     }

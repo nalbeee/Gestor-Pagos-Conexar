@@ -8,6 +8,10 @@ import EmpleadoForm from './pages/EmpleadoForm';
 import EmpleadoDetalle from './pages/EmpleadoDetalle';
 import ObraForm from './pages/ObraForm';
 import ObraDetalle from './pages/ObraDetalle';
+import RegistroSemana from './pages/RegistroSemana';
+import EmpleadoSemanal from './pages/resumenes/EmpleadoSemanal';
+import ResumenObras from './pages/resumenes/ResumenObras';
+import EmpleadoMensual from './pages/resumenes/EmpleadoMensual';
 
 function App() {
   return (
@@ -22,10 +26,14 @@ function App() {
           <Route path="/empleados/editar/:id" element={<EmpleadoForm />} />
           <Route path="/empleados/:id" element={<EmpleadoDetalle />} />
           <Route path="/resumenes" element={<Resumenes />} />
+          <Route path="/resumenes/empleado-semanal" element={<EmpleadoSemanal />} />
+          <Route path="/resumenes/obras" element={<ResumenObras />} />
           <Route path="/obras" element={<Obras />} />
           <Route path="/obras/nueva" element={<ObraForm />} />
           <Route path="/obras/editar/:id" element={<ObraForm />} />
           <Route path="/obras/:id" element={<ObraDetalle />} />
+          <Route path="/registro-semana/:idObra" element={<RegistroSemana />} />
+          <Route path="/resumenes/empleado-mensual" element={<EmpleadoMensual />} />
         </Route>
       </Routes>
     </BrowserRouter>
