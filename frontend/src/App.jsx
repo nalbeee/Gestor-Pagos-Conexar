@@ -16,6 +16,7 @@ import Obras from './pages/Obras';
 import ObraForm from './pages/ObraForm';
 import ObraDetalle from './pages/ObraDetalle';
 import RegistroSemana from './pages/RegistroSemana';
+import ObraHistorialCargas from './pages/ObraHistorialCargas';
 
 // --- Módulo de Resúmenes ---
 import Resumenes from './pages/Resumenes';
@@ -52,6 +53,7 @@ function App() {
             <Route path="/obras/nueva" element={<ObraForm />} />
             <Route path="/obras/editar/:id" element={<ObraForm />} />
             <Route path="/obras/:id" element={<ObraDetalle />} />
+            <Route path="/obras/:idObra/cargas" element={<ObraHistorialCargas />} />
 
             {/* Ruta de Registro Semanal */}
             <Route path="/registro-semana/:idObra" element={<RegistroSemana />} />

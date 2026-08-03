@@ -9,10 +9,13 @@ export function calcularMontoRegistro(reg) {
   const dayOfWeek = new Date(reg.fecha + 'T12:00:00').getDay();
   let hBase = 0, hExtra = 0, hSab = 0, hDom = 0;
 
-  if (dayOfWeek === 0) {
+  // NUEVO: Si es Domingo (0) o el registro fue marcado manualmente como feriado
+  if (dayOfWeek === 0 || reg.es_feriado) {
     hDom = totalHoras + (reg.de_corrido ? 1 : 0);
   } else if (dayOfWeek === 6) {
     hSab = totalHoras + (reg.de_corrido ? 1 : 0);
+  } else if (reg.es_viernes_extra) {
+    hExtra = totalHoras + (reg.de_corrido ? 1 : 0);
   } else {
     hBase = Math.min(totalHoras, 9);
     hExtra = Math.max(0, totalHoras - 9) + (reg.de_corrido ? 1 : 0);
