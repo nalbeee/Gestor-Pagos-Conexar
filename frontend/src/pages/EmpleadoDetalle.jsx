@@ -93,15 +93,17 @@ export default function EmpleadoDetalle() {
 
       {/* Calendarios Dinámicos Reales */}
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Registro de Obras Trabajadas</h2>
+      
+      {/* CAMBIO: Mes anterior a la izquierda, Mes actual a la derecha */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <CalendarioMes 
-          titulo={`Mes Actual (${infoMesActual.nombreMes})`} 
-          infoMes={infoMesActual}
-          registros={registros}
-        />
         <CalendarioMes 
           titulo={`Mes Anterior (${infoMesAnterior.nombreMes})`} 
           infoMes={infoMesAnterior}
+          registros={registros}
+        />
+        <CalendarioMes 
+          titulo={`Mes Actual (${infoMesActual.nombreMes})`} 
+          infoMes={infoMesActual}
           registros={registros}
         />
       </div>
@@ -140,18 +142,25 @@ function getInfoMes(offsetMeses = 0) {
 
   // Cantidad exacta de días que tiene este mes
   const diasEnMes = new Date(anio, mesNumero + 1, 0).getDate();
+  
+  // CAMBIO: Calculamos el espacio en blanco necesario para que el día 1 caiga en su lugar correcto
+  const primerDiaSemana = fecha.getDay(); // 0 = Dom, 1 = Lun, 6 = Sab
+  const offsetBlancos = primerDiaSemana === 0 ? 6 : primerDiaSemana - 1;
 
   return {
     nombreMes: nombreCapitalizado,
     diasEnMes,
     mesNumero,
-    anio
+    anio,
+    offsetBlancos // Agregamos esta propiedad al retorno
   };
 }
 
 // Subcomponente de Calendario que lee la información real de Supabase
 function CalendarioMes({ titulo, infoMes, registros }) {
   const dias = Array.from({ length: infoMes.diasEnMes }, (_, i) => i + 1);
+  // CAMBIO: Creamos un arreglo con los espacios en blanco
+  const blancos = Array.from({ length: infoMes.offsetBlancos }, (_, i) => i);
 
   return (
     <div className="bg-brand-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -160,6 +169,12 @@ function CalendarioMes({ titulo, infoMes, registros }) {
         {['L', 'M', 'X', 'J', 'V', 'S', 'D'].map(d => (
           <div key={d} className="text-center text-xs font-bold text-gray-400">{d}</div>
         ))}
+        
+        {/* CAMBIO: Imprimimos los cuadros invisibles antes de los días */}
+        {blancos.map(b => (
+          <div key={`blank-${b}`} className="aspect-square"></div>
+        ))}
+
         {dias.map(dia => {
           // Formateamos la fecha en 'YYYY-MM-DD' para comparar con los registros de la base de datos
           const mesStr = String(infoMes.mesNumero + 1).padStart(2, '0');
